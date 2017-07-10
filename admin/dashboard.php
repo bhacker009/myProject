@@ -1,3 +1,8 @@
+<?php
+    session_start();
+?>
+
+
 <!DOCTYPE html>
 <!-- 
 Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.7
@@ -55,6 +60,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- END HEAD -->
 
     <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+       
         <div class="page-wrapper">
             <!-- BEGIN HEADER -->
             <div class="page-header navbar navbar-fixed-top">
@@ -426,6 +432,7 @@ License: You must have a valid license purchased only from themeforest(the above
             <div class="clearfix"> </div>
             <!-- END HEADER & CONTENT DIVIDER -->
             <!-- BEGIN CONTAINER -->
+           
             <div class="page-container">
                 <!-- BEGIN SIDEBAR -->
                 <div class="page-sidebar-wrapper">
@@ -1719,7 +1726,11 @@ License: You must have a valid license purchased only from themeforest(the above
                         </div>
                         <!-- END PAGE BAR -->
                         <!-- BEGIN PAGE TITLE-->
-                        <h1 class="page-title"> Admin Dashboard
+                        <h1 class="page-title">
+                         <?php
+                            echo "<b class='text-success'>Welcome ".$_SESSION['username']." </b>to";
+                         ?>
+                             Dashboard
                             <small>statistics, charts, recent events and reports</small>
                         </h1>
                         <!-- END PAGE TITLE-->

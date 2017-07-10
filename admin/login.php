@@ -1,3 +1,34 @@
+<?php
+    include('common/database.php');
+    
+    @$username = $_REQUEST['username'];
+    @$password = $_REQUEST['password'];
+    
+    $statement = $db->prepare('SELECT * FROM users WHERE username = ? AND password = ? AND active = 1');
+    $statement->execute(array($username, md5($password)));
+    $output = $statement->rowCount();
+    $result = $statement->fetchAll();
+//    if(isset($username) && isset($password)){
+//        echo "<pre>";
+//        print_r($_POST);
+//        echo "Affected rows : $result";
+//        echo "</pre>";    
+//    }
+    if($_POST){
+        if($output > 0){
+            echo "<pre>";
+            //echo($result[0]['username']);
+            session_start();
+            $_SESSION['username'] = $username;
+            //echo $_SESSION['username'];
+            header('location: dashboard.php');
+        }else{
+            header('location: login.php?status=error');
+        }    
+    }
+    
+    
+?>
 <!DOCTYPE html>
 <!-- 
 Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.7
@@ -62,12 +93,17 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- BEGIN LOGIN -->
         <div class="content">
             <!-- BEGIN LOGIN FORM -->
-            <form class="login-form" action="http://keenthemes.com/preview/metronic/theme/admin_1/index.html" method="post">
+            <form name="myForm" class="login-form" action="login.php" method="post">
                 <h3 class="form-title font-green">Sign In</h3>
+                
                 <div class="alert alert-danger display-hide">
                     <button class="close" data-close="alert"></button>
                     <span> Enter any username and password. </span>
                 </div>
+                <?php 
+                    if(isset($_GET['status'])) 
+                        echo "<div class='alert alert-danger'>".$_GET['status']."</div>";
+                ?>
                 <div class="form-group">
                     <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
                     <label class="control-label visible-ie8 visible-ie9">Username</label>
@@ -77,10 +113,12 @@ License: You must have a valid license purchased only from themeforest(the above
                     <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" /> </div>
                 <div class="form-actions">
                     <button type="submit" class="btn green uppercase">Login</button>
+<!--
                     <label class="rememberme check mt-checkbox mt-checkbox-outline">
                         <input type="checkbox" name="remember" value="1" />Remember
                         <span></span>
                     </label>
+-->
                     <a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>
                 </div>
                 <div class="login-options">
@@ -115,7 +153,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" /> </div>
                 <div class="form-actions">
                     <button type="button" id="back-btn" class="btn green btn-outline">Back</button>
-                    <button type="submit" class="btn btn-success uppercase pull-right">Submit</button>
+                    <button type="submit" name="submit" class="btn btn-success uppercase pull-right">Submit</button>
                 </div>
             </form>
             <!-- END FORGOT PASSWORD FORM -->
