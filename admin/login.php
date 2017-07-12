@@ -1,4 +1,5 @@
 <?php
+    session_start();
     include('common/database.php');
     
     @$username = $_REQUEST['username'];
@@ -16,14 +17,18 @@
 //    }
     if($_POST){
         if($output > 0){
-            echo "<pre>";
+            //echo "<pre>";
             //echo($result[0]['username']);
-            session_start();
-            $_SESSION['username'] = $username;
+            
+            $_SESSION['username'] = $result[0]['username'];
+            $_SESSION['name'] = $result[0]['name'];
+            $_SESSION['age'] = $result[0]['age'];
+            $_SESSION['gender'] = $result[0]['gender'];
+            $_SESSION['dob'] = $result[0]['dob'];
             //echo $_SESSION['username'];
             header('location: dashboard.php');
         }else{
-            header('location: login.php?status=error');
+            header('location: login.php?status=Error');
         }    
     }
     
@@ -86,7 +91,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <body class=" login">
         <!-- BEGIN LOGO -->
         <div class="logo">
-            <a href="index-2.html">
+            <a href="#">
                 <img src="../assets/pages/img/logo-big.png" alt="" /> </a>
         </div>
         <!-- END LOGO -->
@@ -102,7 +107,7 @@ License: You must have a valid license purchased only from themeforest(the above
                 </div>
                 <?php 
                     if(isset($_GET['status'])) 
-                        echo "<div class='alert alert-danger'>".$_GET['status']."</div>";
+                        echo "<div class='alert alert-danger text-center'>".$_GET['status']."</div>";
                 ?>
                 <div class="form-group">
                     <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
